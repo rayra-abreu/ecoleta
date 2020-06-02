@@ -7,12 +7,15 @@
 - API RESTful
 - Expo
 - Express
+- Insomnia
+- Knex.js
 - Node.js
 - NPM
 - NPX
 - React.js
 - React Native
 - SPA (Single Page Applications)
+- SQLite
 - TypeScript
 
 ### Web
