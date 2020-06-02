@@ -7,6 +7,8 @@ const connection=knex({
       filename: path.resolve(__dirname, 'database.sqlite') /*Padronizando o 
       caminho conforme o sistema operacional*/
     },
+    useNullAsDefault: true,
 })
 
 export default connection
+//Migrations = Histórico do banco de dados
