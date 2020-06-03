@@ -6,7 +6,7 @@ interface HeaderProps{
   //title?: string
 }
 
-const Header: React.FC<HeaderProps>=(props)=>{
+const HeaderTeste: React.FC<HeaderProps>=(props)=>{
   return (
     <header>
       <h1>{props.title}</h1>
@@ -14,4 +14,4 @@ const Header: React.FC<HeaderProps>=(props)=>{
   )
 }
 
-export default Header
+export default HeaderTeste
