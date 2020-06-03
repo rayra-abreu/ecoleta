@@ -1,8 +1,16 @@
 import express from 'express'
+import cors from 'cors'
 import path from 'path'
 import routes from './routes'
 
 const app=express()
+
+app.use(cors())
+/*
+app.use(cors({
+  origin: 'www.site.com'
+}))
+*/
 app.use(express.json()) /*O use server para colocar como se fosse uma 
 funcionalidade a mais no express, essa funcionalidade é a forma do express 
 entender o corpo da requisição*/
