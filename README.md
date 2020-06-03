@@ -5,6 +5,7 @@
 ## Tecnologias utilizadas
 
 - API RESTful
+- CORS
 - Expo
 - Express
 - Insomnia
