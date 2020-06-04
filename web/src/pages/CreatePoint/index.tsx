@@ -30,12 +30,21 @@ const CreatePoint=()=>{
   const [ufs, setUfs]=useState<string[]>([])
   const [cities, setCities]=useState<string[]>([])
 
+  const [initialPosition, setInitialPosition]=useState<[number, number]>([0, 0])
+
   const [selectedUf, setSelectedUF]=useState('0')
   const [selectedCity, setSelectedCity]=useState('0')
   const [selectedPosition, setSelectedPosition]=useState<[number, number]>([0, 0])
   /*useEffect é uma função que recebe dois parâmetros, o primeiro é qual função
   quero executar, o segundo é quando quero executar. O quando é baseado na 
   mudança da informação*/
+  useEffect(()=>{
+    navigator.geolocation.getCurrentPosition(position=>{
+      const {latitude, longitude}=position.coords
+      setInitialPosition([latitude, longitude])
+    })
+  }, [])
+
   useEffect(()=>{
     api.get('items').then(response=>{
       setItems(response.data)
