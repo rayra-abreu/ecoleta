@@ -1,11 +1,36 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import {Link} from 'react-router-dom'
 import {FiArrowLeft} from 'react-icons/fi'
 import {Map, TileLayer, Marker} from 'react-leaflet'
+import api from '../../services/api'
 import './styles.css'
 import logo from '../../assets/logo.svg'
 
+/*Sempre que criarmos um estado para um array ou objeto, precisamos manualmente
+informar o tipo da variável que será armazenada*/
+interface Item{
+  id: number,
+  title: string,
+  image_url: string
+}
+
 const CreatePoint=()=>{
+  //const [items, setItems]=useState<Array<Item>>([])
+  const [items, setItems]=useState<Item[]>([])
+  /*useEffect é uma função que recebe dois parâmetros, o primeiro é qual função
+  quero executar, o segundo é quando quero executar. O quando é baseado na 
+  mudança da informação*/
+  useEffect(()=>{
+    api.get('items').then(response=>{
+      setItems(response.data)
+    })
+  }, [])
+  /*Caso fosse executar uma função toda vez que a informação mudasse, uma 
+  variável seria colocada no array de useEffect. Se deixar ele vazio, a função
+  que foi colocada como primeiro parâmetro será disparada uma única vez 
+  independente de quantas vezes o componente por ex. createPoint, 
+  mude(estado, etc). Tudo que for colocado dentro desta função será executado
+  assim que o componente for exibido em tela*/
   return (
     <div id="page-create-point">
       <header>
@@ -47,7 +72,7 @@ const CreatePoint=()=>{
           <Map center={[-27.2092052, -49.6401092]} zoom={15}>
             <TileLayer attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"/>
-          
+
             <Marker position={[-27.2092052, -49.6401092]} />
           </Map>
 
@@ -74,30 +99,12 @@ const CreatePoint=()=>{
             <span>Selecione um ou mais ítens abaixo</span>
           </legend>
           <ul className="items-grid">
-            <li className="selected">
-              <img src="http://localhost:3333/uploads/oleo.svg" alt="Item"/>
-              <span>Óleo de cozinha</span>
-            </li>
-            <li>
-              <img src="http://localhost:3333/uploads/oleo.svg" alt="Item"/>
-              <span>Óleo de cozinha</span>
-            </li>
-            <li>
-              <img src="http://localhost:3333/uploads/oleo.svg" alt="Item"/>
-              <span>Óleo de cozinha</span>
-            </li>
-            <li>
-              <img src="http://localhost:3333/uploads/oleo.svg" alt="Item"/>
-              <span>Óleo de cozinha</span>
-            </li>
-            <li>
-              <img src="http://localhost:3333/uploads/oleo.svg" alt="Item"/>
-              <span>Óleo de cozinha</span>
-            </li>
-            <li>
-              <img src="http://localhost:3333/uploads/oleo.svg" alt="Item"/>
-              <span>Óleo de cozinha</span>
-            </li>
+            {items.map(item=>(
+              <li key={item.id}>
+                <img src={item.image_url} alt={`Item ${item.title}`}/>
+                <span>{item.title}</span>
+              </li>
+            ))}
           </ul>
         </fieldset>
         <button type="submit">Cadastrar ponto de coleta</button>

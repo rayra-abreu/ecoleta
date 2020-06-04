@@ -16,7 +16,7 @@ const Home=()=>{
           <h1>Seu marketplace de coleta de resíduos.</h1>
           <p>Ajudamos pessoas a encontrarem pontos de coleta de forma eficiente.</p>
           <Link to="/create-point">
-            <span>
+            <span id="register-icon">
               <FiLogIn/>
             </span>
             <span id="register">Cadastre um ponto de coleta</span>
