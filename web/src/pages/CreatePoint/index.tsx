@@ -1,7 +1,8 @@
-import React, {useEffect, useState} from 'react'
+import React, {useEffect, useState, ChangeEvent} from 'react'
 import {Link} from 'react-router-dom'
 import {FiArrowLeft} from 'react-icons/fi'
 import {Map, TileLayer, Marker} from 'react-leaflet'
+import axios from 'axios'
 import api from '../../services/api'
 import './styles.css'
 import logo from '../../assets/logo.svg'
@@ -14,9 +15,22 @@ interface Item{
   image_url: string
 }
 
+interface IBGEUFResponse{
+  sigla: string
+}
+
+interface IBGECityResponse{
+  nome: string
+}
+
 const CreatePoint=()=>{
   //const [items, setItems]=useState<Array<Item>>([])
   const [items, setItems]=useState<Item[]>([])
+  const [ufs, setUfs]=useState<string[]>([])
+  const [cities, setCities]=useState<string[]>([])
+
+  const [selectedUf, setSelectedUF]=useState('0')
+  const [selectedCity, setSelectedCity]=useState('0')
   /*useEffect é uma função que recebe dois parâmetros, o primeiro é qual função
   quero executar, o segundo é quando quero executar. O quando é baseado na 
   mudança da informação*/
@@ -25,12 +39,41 @@ const CreatePoint=()=>{
       setItems(response.data)
     })
   }, [])
+
+  useEffect(()=>{
+    axios.get<IBGEUFResponse[]>('https://servicodados.ibge.gov.br/api/v1/localidades/estados').then(response=>{
+      const ufInitials=response.data.map(uf=>uf.sigla)
+      setUfs(ufInitials)
+    })
+  },[])
+
+  useEffect(()=>{
+    if(selectedUf==='0'){
+      return 
+    }
+    axios.get<IBGECityResponse[]>(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${selectedUf}/municipios`).then(response=>{
+      const cityNames=response.data.map(city=>city.nome)
+      setCities(cityNames)
+    })
+    //Carregar as cidades sempre que a UF mudar
+  }, [selectedUf])
+
   /*Caso fosse executar uma função toda vez que a informação mudasse, uma 
   variável seria colocada no array de useEffect. Se deixar ele vazio, a função
   que foi colocada como primeiro parâmetro será disparada uma única vez 
   independente de quantas vezes o componente por ex. createPoint, 
   mude(estado, etc). Tudo que for colocado dentro desta função será executado
   assim que o componente for exibido em tela*/
+  function handleSelectUf(event: ChangeEvent<HTMLSelectElement>){
+    const uf=event.target.value
+    setSelectedUF(uf)
+  }
+
+  function handleSelectCity(event: ChangeEvent<HTMLSelectElement>){
+    const city=event.target.value
+    setSelectedCity(city)
+  }
+
   return (
     <div id="page-create-point">
       <header>
@@ -79,15 +122,21 @@ const CreatePoint=()=>{
           <div className="field-group">
             <div className="field">
               <label className="label-title" htmlFor="uf">Estado (UF)</label>
-                <select name="uf" id="uf" required>
-                  <option disabled selected>Selecione a UF</option>
+                <select name="uf" id="uf" value={selectedUf} onChange={handleSelectUf} required>
+                  <option value="0" disabled>Selecione a UF</option>
+                  {ufs.map(uf=>(
+                    <option key={uf} value={uf}>{uf}</option>
+                  ))}
                 </select>
             </div>
 
             <div className="field">
               <label className="label-title" htmlFor="city">Cidade</label>
-                <select name="city" id="city" required>
-                  <option disabled selected>Selecione a cidade</option>
+                <select name="city" id="city" value={selectedCity} onChange={handleSelectCity} required>
+                  <option value="0" disabled>Selecione a cidade</option>
+                  {cities.map(city=>(
+                    <option key={city} value={city}>{city}</option>
+                  ))}
                 </select>
             </div>
           </div>
