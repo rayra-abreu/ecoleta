@@ -4,6 +4,7 @@
 
 ## Tecnologias utilizadas
 
+- API de localidades (IBGE)
 - API RESTful
 - Axios
 - CORS
