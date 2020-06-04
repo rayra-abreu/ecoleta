@@ -5,6 +5,7 @@
 ## Tecnologias utilizadas
 
 - API RESTful
+- Axios
 - CORS
 - Expo
 - Express
