@@ -10,6 +10,7 @@
 - Express
 - Insomnia
 - Knex.js
+- Leaflet
 - Node.js
 - NPM
 - NPX
