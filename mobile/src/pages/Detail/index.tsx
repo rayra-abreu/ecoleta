@@ -45,14 +45,14 @@ const Detail=()=>{
 
   function handleWhatsapp(){
     Linking.openURL(`whatsapp://send?phone=${data.point.whatsapp}
-    &text=Tenho interese na coleta de resíduos: ${data.items.map(item=>item.title).join(', ')}`)
+    &text=Tenho interesse na coleta de resíduos: ${data.items.map(item=>item.title).join(', ')}`)
   }
 
   function handleComposeMail(){
     MailComposer.composeAsync({
       subject: 'Intersse na coleta de resíduos',
       recipients: [data.point.email],
-      body: `Tenho interese na coleta de resíduos: ${data.items.map(item=>item.title).join(', ')}`
+      body: `Tenho interesse na coleta de resíduos: ${data.items.map(item=>item.title).join(', ')}`
     })
   }
 
