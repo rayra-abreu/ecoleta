@@ -7,6 +7,10 @@ const connection=knex({
       filename: path.resolve(__dirname, 'database.sqlite') /*Padronizando o 
       caminho conforme o sistema operacional*/
     },
+    pool: {
+    afterCreate: (conn: any, cb: any) =>
+      conn.run('PRAGMA foreign_keys = ON', cb)
+  },
     useNullAsDefault: true,
 })
 

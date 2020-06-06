@@ -74,14 +74,17 @@ class PointsController{
       }
     })
   
-    await trx('point_items').insert(pointItems)
+    try {
+      await trx('point_items').insert(pointItems)
 
-    await trx.commit()
-  
-    return response.json({
-      id: point_id,
-      ...point,
-    })
+      await trx.commit();
+    } catch (error) {
+      await trx.rollback();
+
+      return response.status(400).json({ message: 'Falha na inserção na tabela point_items, verifique se os items informados são válidos' })
+    }
+
+    return response.json({ id: point_id, ...point, })
   }
 }
 
