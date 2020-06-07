@@ -36,8 +36,8 @@ const Dropzone: React.FC<Props>=({onFileUploaded})=>{
             <FiUpload/>
             {
               isDragActive ?
-              <p>Solte os arquivos aqui ...</p> :
-              <p>Arraste e solte alguns arquivos aqui ou clique para selecionar os arquivos.</p>
+              <p>Solte a imagem aqui ...</p> :
+              <p>Arraste e solte algumas imagens aqui ou clique para selecionar as imagens.</p>
             }
             </div>
           )
