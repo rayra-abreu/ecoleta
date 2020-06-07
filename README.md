@@ -7,6 +7,7 @@
 - API de localidades (IBGE)
 - API RESTful
 - Axios
+- Celebrate
 - CORS
 - Expo
 - Express
