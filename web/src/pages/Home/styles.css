@@ -1,108 +1,136 @@
 #page-home {
   height: 100vh;
-
-  background: url('../../assets/home-background.svg') no-repeat 600px bottom;
+  background-image: url('../../assets/home-background.svg');
+  background-repeat: no-repeat;
+  background-position: bottom right;
 }
 
 #page-home .content {
   width: 100%;
   height: 100%;
-  max-width: 1100px;
+  max-width: 68.75rem;
   margin: 0 auto;
-  padding: 0 30px;
-
+  padding: 0 1.875rem;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
 }
 
 #page-home .content header {
-  margin: 48px 0 0;
+  margin: 3rem 0 0;
 }
 
 #page-home .content main {
   flex: 1;
-  max-width: 560px;
-
+  max-width: 32rem;
+  padding: 2.125rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
 
 #page-home .content main h1 {
-  font-size: 54px;
+  font-size: 2.875rem;
   color: var(--title-color);
 }
 
 #page-home .content main p {
-  font-size: 24px;
-  margin-top: 24px;
-  line-height: 38px;
+  font-size: 1.5rem;
+  margin-top: 1.5rem;
+  line-height: 2.375rem;
 }
 
-#page-home .content main a {
-  width: 100%;
-  max-width: 360px;
-  height: 72px;
-  background: var(--primary-color);
-  border-radius: 8px;
-  text-decoration: none;
+form{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: rgba(0, 0, 0, .1);
+}
 
+#page-home .content main form a {
+  width: 100%;
+  max-width: 22.5rem;
+  background: var(--primary-color);
+  border-radius: 0.5rem;
+  text-decoration: none;
   display: flex;
   align-items: center;
   overflow: hidden;
-
-  margin-top: 40px;
+  margin-top: 2.5rem;
 }
 
-#page-home .content main a #register-icon {
-  display: block;
+#page-home .content main form a #register-icon {
   background: rgba(0, 0, 0, 0.08);
-  width: 72px;
-  height: 72px;
-
+  width: 4.5rem;
+  height: 4.5rem;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: background-color 0.2s;
 }
 
-#page-home .content main a span svg {
+#page-home .content main form a span svg {
   color: #FFF;
-  width: 20px;
-  height: 20px;
+  width: 1.25rem;
+  height: 1.25rem;
 }
 
-#page-home .content main a #register {
+#page-home .content main form a #register {
   flex: 1;
   text-align: center;
   color: #FFF;
   font-weight: 700;
+  padding: 0 0.55rem;
 }
 
-#page-home .content main a:hover {
+#page-home .content main form a:hover {
   background: #2FB86E;
 }
 
-@media(max-width: 900px) {
-  #page-home .content {
-    align-items: center;
-    text-align: center;
-  }
-
-  #page-home .content header {
-    margin: 48px auto 0;
-  }
-
-  #page-home .content main {
-    align-items: center;
+@media(max-width: 1150px) {
+  #page-home {
+    background-size: 68%;
   }
 
   #page-home .content main h1 {
-    font-size: 42px;
+    font-size: 2.125rem;
   }
 
   #page-home .content main p {
-    font-size: 24px;
+    font-size: 1.125rem;
+  }
+}
+
+@media(max-width: 968px) {
+  #page-home {
+    background-size: 60%;
+  }
+
+  #page-home .content main {
+    max-width: 28.875rem;
+  }
+}
+
+@media(max-width: 768px) {
+  #page-home .content {
+    align-items: center;
+  }
+  
+  #page-home .content header {
+    margin: 3rem auto 0;
+  }
+}
+
+@media(max-width: 425px) {
+  html {
+    font-size: 15px;
+  }
+
+  #page-home .content main {
+    padding: 1.125rem;
+  }
+
+  #page-home .content main form a #register-icon {
+    width: 4.1rem;
+    height: 4.1rem;
   }
 }

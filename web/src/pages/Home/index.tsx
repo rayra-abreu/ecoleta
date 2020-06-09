@@ -15,12 +15,14 @@ const Home=()=>{
         <main>
           <h1>Seu marketplace de coleta de resíduos.</h1>
           <p>Ajudamos pessoas a encontrarem pontos de coleta de forma eficiente.</p>
-          <Link to="/create-point">
-            <span id="register-icon">
-              <FiLogIn/>
-            </span>
-            <span id="register">Cadastre um ponto de coleta</span>
-          </Link>
+          <form>
+            <Link to="/create-point">
+              <span id="register-icon">
+                <FiLogIn/>
+              </span>
+              <span id="register">Cadastre um ponto de coleta</span>
+            </Link>
+          </form>
         </main>
       </div>
     </div>
