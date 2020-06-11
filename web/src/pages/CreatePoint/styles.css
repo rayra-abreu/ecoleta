@@ -3,74 +3,85 @@
 }
 
 #page-create-point {
-  width: 100%;
-  max-width: 1100px;
-
+  display: flex;
+  justify-content: center;
   margin: 0 auto;
+  padding: 6rem 1rem;
 }
 
 #page-create-point header {
-  margin-top: 48px;
-
   display: flex;
+  position: fixed;
   justify-content: space-between;
   align-items: center;
+  top: 0;
+  padding: 1rem;
+  width: 100%;
+  z-index: 1001;
+  background-color: #FFF;
+}
+
+#page-create-point header img{
+  max-width: 11.375rem;
+  width: 100%;
+  height: auto;
 }
 
 #page-create-point header a {
   color: var(--title-color);
   font-weight: 700;
   text-decoration: none;
-
   display: flex;
   align-items: center;
 }
 
 #page-create-point header a svg {
-  margin-right: 16px;
+  margin: 0 0.5rem 0 1rem;
   color: var(--primary-color);
 }
 
 #page-create-point form {
-  margin: 80px auto;
-  padding: 64px;
-  max-width: 730px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  max-width: 45.625rem;
+  border-radius: 0.375rem;
   background: #FFF;
-  border-radius: 6px;
-
   display: flex;
   flex-direction: column;
 }
 
 #page-create-point form h1 {
-  font-size: 36px;
+  margin-top: 3rem;
+  font-size: 2.25rem;
 }
 
-#page-create-point form h1 span{
+#page-create-point form h1 span {
   display: block;
 }
 
 #page-create-point form fieldset {
-  margin-top: 64px;
-  min-inline-size: auto;
   border: 0;
+  width: 100%;
+  margin-top: 4rem;
+  min-inline-size: auto;
 }
 
 #page-create-point form legend {
   width: 100%;
+  margin-bottom: 2.5rem;
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  margin-bottom: 40px;
+  justify-content: space-between;
 }
 
 #page-create-point form legend h2 {
-  font-size: 24px;
+  font-size: 1.5rem;
 }
 
 #page-create-point form legend span {
-  font-size: 14px;
+  font-size: 0.875rem;
   font-weight: normal;
+  text-align: right;
   color: var(--text-color);
 }
 
@@ -81,22 +92,21 @@
 
 #page-create-point form .field {
   flex: 1;
-
+  margin-bottom: 1.5rem;
   display: flex;
   flex-direction: column;
-  margin-bottom: 24px;
 }
 
 #page-create-point form .field input[type=text],
 #page-create-point form .field input[type=email],
 #page-create-point form .field input[type=number] {
   flex: 1;
-  background: #F0F0F5;
-  border-radius: 6px;
-  border: 1px solid;
-  padding: 16px 24px;
-  font-size: 16px;
+  width: 100%;
+  padding: 1rem;
+  border: 0.0625rem solid;
+  border-radius: 0.375rem;
   color: #6C6C80;
+  background: #F0F0F5;
 }
 
 #page-create-point form .field select {
@@ -104,12 +114,12 @@
   -moz-appearance: none;
   appearance: none;
   flex: 1;
-  background: #F0F0F5;
-  border-radius: 6px;
-  border: 1px solid;
-  padding: 16px 24px;
-  font-size: 16px;
+  width: 100%;
+  padding: 1rem;
+  border: 0.0625rem solid;
+  border-radius: 0.375rem;
   color: #6C6C80;
+  background: #F0F0F5;
 }
 
 #page-create-point form .field input::placeholder {
@@ -117,8 +127,8 @@
 }
 
 #page-create-point form .field label {
-  font-size: 14px;
-  margin-bottom: 8px;
+  font-size: 0.875rem;
+  margin-bottom: 0.5rem;
 }
 
 #page-create-point form .field :disabled {
@@ -126,11 +136,11 @@
 }
 
 #page-create-point form .field-group .field + .field {
-  margin-left: 24px;
+  margin-left: 1rem;
 }
 
 #page-create-point form .field-group input + input {
-  margin-left: 24px;
+  margin-left: 1rem;
 }
 
 #page-create-point form .field-check {
@@ -143,27 +153,26 @@
 }
 
 #page-create-point form .field-check label {
-  margin: 0 0 0 8px;
+  margin: 0 0 0 0.5rem;
 }
 
 #page-create-point form .leaflet-container {
+  margin-bottom: 1.5rem;
   width: 100%;
-  height: 350px;
-  border-radius: 8px;
-  margin-bottom: 24px;
+  height: 21.875rem;
+  border-radius: 0.5rem;
 }
 
 #page-create-point form button {
-  width: 260px;
-  height: 56px;
+  margin: 2.5rem 0;
+  width: 18rem;
+  height: 4.5rem;
   background: var(--primary-color);
-  border-radius: 8px;
-  color: #FFF;
-  font-weight: 700;
-  font-size: 16px;
   border: 0;
+  border-radius: 0.5rem;
+  font-weight: 700;
+  color: #FFF;
   align-self: flex-end;
-  margin-top: 40px;
   transition: background-color 0.2s;
   cursor: pointer;
 }
@@ -173,39 +182,57 @@
 }
 
 .items-grid {
+  list-style: none;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
-  list-style: none;
+  gap: 1rem;
 }
 
 .items-grid li {
   background: #f5f5f5;
-  border: 2px solid #f5f5f5;
-  height: 180px;
-  border-radius: 8px;
-  padding: 32px 24px 16px;
-
+  border: 0.125rem solid #f5f5f5;
+  border-radius: 0.5rem;
+  height: 11.25rem;
+  padding: 2rem 1.5rem 1rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-
   text-align: center;
-
   cursor: pointer;
 }
 
-.items-grid li span {
-  flex: 1;
-  margin-top: 12px;
+.items-grid li img{
+  max-width: 4rem;
+  width: 100%;
+  height: auto;
+}
 
-  display: flex;
+.items-grid li span {
   align-items: center;
-  color: var(--title-color)
+  color: var(--title-color);
+  flex: 1;
+  display: flex;
+  margin-top: 0.75rem;  
 }
 
 .items-grid li.selected {
   background: #E1FAEC;
-  border: 2px solid #34CB79;
+  border: 0.125rem solid #34CB79;
+}
+
+@media(max-width: 495px) {
+  #page-create-point form {
+    padding: 0.5rem;
+  }
+
+  .items-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+}
+@media(max-width: 425px) {
+  html {
+    font-size: 15px;
+  }
 }

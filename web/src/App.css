@@ -22,8 +22,9 @@ body {
   color: var(--text-color);
 }
 
-body, input, button {
+body, input, button, select {
   font-family: Roboto, Arial, Helvetica, sans-serif;
+  font-size: inherit;
 }
 
 h1, h2, h3, h4, h5, h6 {

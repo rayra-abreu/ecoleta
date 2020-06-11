@@ -1,12 +1,12 @@
 .dropzone {
-  height: 300px;
+  margin-top: 3rem;
+  height: 18.75rem;
+  border-radius: 0.625rem;
   background: #E1FAEC;
-  border-radius: 10px;
   cursor: pointer;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 48px;
 }
 
 .dropzone img {
@@ -16,22 +16,22 @@
 }
 
 #box {
-  padding: 10px;
-  width: calc(100% - 60px);
-  height: calc(100% - 60px);
-  border-radius: 10px;
-  border: 1px dashed #4ECB79;
+  padding: 0.625rem;
+  width: calc(100% - 3.75rem);
+  height: calc(100% - 3.75rem);
+  border-radius: 0.625rem;
+  border: 0.0625rem dashed #4ECB79;
+  color: #333;
   text-align: center;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  color: #333;
 }
 
 #box svg {
   color: #4ECB79;
-  width: 24px;
-  height: 24px;
-  margin-bottom: 8px;
+  width: 1.5rem;
+  height: 1.5rem;
+  margin-bottom: 0.5rem;
 }
