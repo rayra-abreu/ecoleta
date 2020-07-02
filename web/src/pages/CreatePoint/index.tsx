@@ -1,6 +1,6 @@
-import React, {useEffect, useState, ChangeEvent, FormEvent} from 'react'
+import React, {useEffect, useState, ChangeEvent, MouseEvent, FormEvent} from 'react'
 import {Link, useHistory} from 'react-router-dom'
-import {FiArrowLeft, FiCheckCircle} from 'react-icons/fi'
+import {FiArrowLeft, FiCheckCircle, FiXCircle} from 'react-icons/fi'
 import {Map, TileLayer, Marker} from 'react-leaflet'
 import {LeafletMouseEvent} from 'leaflet'
 import axios from 'axios'
@@ -46,6 +46,7 @@ const CreatePoint=()=>{
   const [selectedItems, setSelectedItems]=useState<number[]>([])
   const [selectedPosition, setSelectedPosition]=useState<[number, number]>([0, 0])
   const [selectedFile, setSelectedFile]=useState<File>()
+  const [pointCreated, setPointCreated]=useState<boolean>(false)
 
   const history=useHistory()
   /*useEffect é uma função que recebe dois parâmetros, o primeiro é qual função
@@ -122,6 +123,9 @@ const CreatePoint=()=>{
 
   async function handleSubmit(event: FormEvent){
     event.preventDefault()
+
+    let inputs = event.currentTarget.getElementsByTagName('input')
+
     const {name, email, whatsapp}=formData
     const uf=selectedUf
     const city=selectedCity
@@ -143,9 +147,22 @@ const CreatePoint=()=>{
     }
 
     await api.post('points', data)
-    alert('CRIADO')
+    
+    //history.push('/')
+    setPointCreated(true)
+    setSelectedPosition([0, 0])
 
-    history.push('/')
+    for(let i=1; i<inputs.length; i++) {
+      inputs[i].value=''
+    }
+
+    setSelectedUF('0')
+    setSelectedCity('0')
+    setSelectedItems([])
+  }
+
+  function outsideClick(event: MouseEvent<HTMLFormElement>){
+    if(event.currentTarget.id==='form-create-point' && pointCreated===true) setPointCreated(false)
   }
 
   return (
@@ -157,7 +174,7 @@ const CreatePoint=()=>{
           Voltar para a Home
         </Link>
       </header>
-      <form onSubmit={handleSubmit}>
+      <form id="form-create-point" onSubmit={handleSubmit} onClick={outsideClick}>
         <h1>Cadastro do <span>ponto de coleta.</span></h1>
         <Dropzone onFileUploaded={setSelectedFile}/>
         <fieldset>
@@ -233,6 +250,18 @@ const CreatePoint=()=>{
         </fieldset>
         <button type="submit">Cadastrar ponto de coleta</button>
       </form>
+
+      { pointCreated ? 
+        <div id="modal">
+          <button className="close" onClick={()=> setPointCreated(false)}>
+            <FiXCircle color="#34CB79"/>
+          </button>
+          <div className="success">
+            <FiCheckCircle color="#34CB79"/>
+            <p>Cadastro concluído!</p>
+          </div>
+        </div> : null
+      }
     </div>
   )
 }

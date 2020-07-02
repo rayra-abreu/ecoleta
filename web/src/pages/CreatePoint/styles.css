@@ -237,6 +237,43 @@
   border: 0.125rem solid #34CB79;
 }
 
+#page-create-point #modal {
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  background: #0E0A14;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  opacity: 0.95;
+  width: 50%;
+  height: auto;
+  min-height: 13rem;
+  z-index: 1010;
+  font-size: 2rem;
+}
+
+#page-create-point #modal .close {
+  display: flex;
+  align-self: flex-end;
+  background-color: transparent;
+  cursor: pointer;
+  border: 0;
+}
+
+#page-create-point .success {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+  width: 100%;
+  height: auto;
+  font-weight: 700;
+  line-height: 2.625rem;
+  color: #F0F0F5;
+}
+
 @media(max-width: 495px) {
   #page-create-point form {
     padding: 0.5rem;
