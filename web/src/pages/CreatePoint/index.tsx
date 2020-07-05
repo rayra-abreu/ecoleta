@@ -193,7 +193,7 @@ const CreatePoint=()=>{
 
             <div className="field">
               <label className="label-title" htmlFor="name">WhatsApp</label>
-              <input type="text" name="whatsapp" id="whatsapp" onChange={handleInputChange} placeholder="5511912345678" required/>
+              <input type="tel" pattern="[0-9]{2}[0-9]{2}[0-9]{5}[0-9]{4}" name="whatsapp" id="whatsapp" onChange={handleInputChange} placeholder="5511912345678" required/>
             </div>
           </div>
         </fieldset>

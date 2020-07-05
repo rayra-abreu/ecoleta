@@ -99,7 +99,7 @@
 
 #page-create-point form .field input[type=text],
 #page-create-point form .field input[type=email],
-#page-create-point form .field input[type=number] {
+#page-create-point form .field input[type=tel] {
   flex: 1;
   width: 100%;
   padding: 1rem;
@@ -113,7 +113,7 @@
 
 #page-create-point form .field input[type=text]:focus,
 #page-create-point form .field input[type=email]:focus,
-#page-create-point form .field input[type=number]:focus {
+#page-create-point form .field input[type=tel]:focus {
   box-shadow: 0 0 0.3125rem rgba(81, 203, 238, 1);
   border-color: rgba(81, 203, 238, 1);
 }
