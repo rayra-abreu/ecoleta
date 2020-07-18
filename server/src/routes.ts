@@ -20,14 +20,14 @@ routes.get('/points/:id', pointsController.show)
 routes.post('/points', upload.single('image'),
   celebrate({
     body: Joi.object().keys({
-      name: Joi.string().required(),
-      email: Joi.string().required().email(),
-      whatsapp: Joi.number().required(),
-      latitude: Joi.number().required(),
-      longitude: Joi.number().required(),
-      city: Joi.string().required(),
-      uf: Joi.string().required().max(2),
-      items: Joi.string().required()
+      name: Joi.string().trim().min(2).max(45).required(),
+      email: Joi.string().email().required(),
+      whatsapp: Joi.string().trim().required(),
+      latitude: Joi.number().not(0).required(),
+      longitude: Joi.number().not(0).required(),
+      city: Joi.string().min(2).required(),
+      uf: Joi.string().length(2).required(),
+      items: Joi.string().trim().required()
     })
   }, {
     abortEarly: false
