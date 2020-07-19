@@ -22,6 +22,7 @@
 - SPA (Single Page Applications)
 - SQLite
 - TypeScript
+- Yup
 
 ### Web
 

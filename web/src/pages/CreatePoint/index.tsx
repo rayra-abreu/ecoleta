@@ -3,6 +3,8 @@ import {Link, useHistory} from 'react-router-dom'
 import {FiArrowLeft, FiCheckCircle, FiXCircle} from 'react-icons/fi'
 import {Map, TileLayer, Marker} from 'react-leaflet'
 import {LeafletMouseEvent} from 'leaflet'
+import * as Yup from 'yup'
+
 import axios from 'axios'
 import api from '../../services/api'
 
@@ -26,14 +28,19 @@ interface IBGECityResponse{
   nome: string
 }
 
+interface formError{
+  [path: string]: string
+}
+
 const CreatePoint=()=>{
   //const [items, setItems]=useState<Array<Item>>([])
   const [items, setItems]=useState<Item[]>([])
   const [ufs, setUfs]=useState<string[]>([])
   const [cities, setCities]=useState<string[]>([])
+  const [formMessages, setFormMessages]=useState<formError | undefined>(undefined)
   
   /*Map center={initialPosition}*/
-  const [initialPosition, setInitialPosition]=useState<[number, number]>([0, 0])
+  const [initialPosition, setInitialPosition]=useState<[number, number]>([-15.792253570362446, -47.88394004702046])
 
   const [formData, setFormData]=useState({
     name:'',
@@ -47,6 +54,17 @@ const CreatePoint=()=>{
   const [selectedPosition, setSelectedPosition]=useState<[number, number]>([0, 0])
   const [selectedFile, setSelectedFile]=useState<File>()
   const [pointCreated, setPointCreated]=useState<boolean>(false)
+
+  const validations=Yup.object().shape({
+    name: Yup.string().trim('').min(2, 'Preencha no mínimo 2 caracteres.').max(45, 'Preencha no máximo 45 caracteres.').required('Preencha o campo de nome.'),
+    email: Yup.string().email('Preencha um e-mail válido.').required('Preencha o campo de e-mail.'),
+    whatsapp: Yup.string().trim('').required('Preencha o campo de Whatsapp.'),
+    position: Yup.array().of(Yup.number().notOneOf([0], 'Ponto inválido.')).max(2, 'Preencha apenas latitude e longitude.').required('Selecione um ponto no mapa.'),
+    uf: Yup.string().length(2, 'UF inválida.').required('Selecione uma UF.'),
+    city: Yup.string().min(2, 'Cidade inválida.').required('Selecione uma cidade.'),
+    items: Yup.array().of(Yup.number().min(1, 'Item inválido.').max(6, 'Item inválido.')).min(1, 'Selecione no mínimo um item.').max(6,'Selecione no máximo 6 itens.').required('Selecione pelo menos um item.'),
+    image: Yup.mixed().required('Selecione uma imagem.')
+  })
 
   const history=useHistory()
   /*useEffect é uma função que recebe dois parâmetros, o primeiro é qual função
@@ -131,34 +149,66 @@ const CreatePoint=()=>{
     const city=selectedCity
     const [latitude, longitude]=selectedPosition
     const items=selectedItems
+    const image=selectedFile
 
-    const data=new FormData()
-    data.append('name', name)
-    data.append('email', email)
-    data.append('whatsapp', whatsapp)
-    data.append('uf', uf)
-    data.append('city', city)
-    data.append('latitude', String(latitude))
-    data.append('longitude', String(longitude))
-    data.append('items', items.join(','))
-    
-    if(selectedFile){
-      data.append('image', selectedFile)
+    try{
+      await validations.validate({
+        name, 
+        email,
+        whatsapp,
+        position: [latitude, longitude],
+        uf,
+        city,
+        items,
+        image
+      },{
+        abortEarly: false
+      })
+
+      registerPoint()
+
+    }catch(err){
+      if(err instanceof Yup.ValidationError){
+        const errorMessages: formError={}
+
+        err.inner.forEach(error=>{
+          errorMessages[error.path]=error.message
+        })
+
+        setFormMessages(errorMessages)
+      }
     }
 
-    await api.post('points', data)
-    
-    //history.push('/')
-    setPointCreated(true)
-    setSelectedPosition([0, 0])
+    async function registerPoint(){
+      const data=new FormData()
+      data.append('name', name)
+      data.append('email', email)
+      data.append('whatsapp', whatsapp)
+      data.append('uf', uf)
+      data.append('city', city)
+      data.append('latitude', String(latitude))
+      data.append('longitude', String(longitude))
+      data.append('items', items.join(','))
+      if(image){
+        data.append('image', image)
+      }
 
-    for(let i=1; i<inputs.length; i++) {
-      inputs[i].value=''
+      await api.post('points', data)
+      
+      //history.push('/')
+      setPointCreated(true)
+      setSelectedPosition([0, 0])
+
+      for(let i=1; i<inputs.length; i++) {
+        inputs[i].value=''
+      }
+
+      setSelectedUF('0')
+      setCities([])
+      setSelectedCity('0')
+      setSelectedItems([])
+      setFormMessages(undefined)
     }
-
-    setSelectedUF('0')
-    setSelectedCity('0')
-    setSelectedItems([])
   }
 
   function outsideClick(event: MouseEvent<HTMLFormElement>){
@@ -175,8 +225,11 @@ const CreatePoint=()=>{
         </Link>
       </header>
       <form id="form-create-point" onSubmit={handleSubmit} onClick={outsideClick}>
-        <h1>Cadastro do <span>ponto de coleta.</span></h1>
-        <Dropzone onFileUploaded={setSelectedFile}/>
+        <h1>Cadastro do <span id="form-title">ponto de coleta.</span></h1>
+        <div id="drop">
+          <Dropzone onFileUploaded={setSelectedFile}/>
+          {formMessages && formMessages['image'] ? <span className="error-message">{formMessages['image']}</span> : null}
+        </div>
         <fieldset>
           <legend>
             <h2>Dados</h2>
@@ -184,16 +237,20 @@ const CreatePoint=()=>{
           <div className="field">
             <label className="label-title" htmlFor="name">Nome da entidade</label>
             <input type="text" name="name" id="name" onChange={handleInputChange} placeholder="Nome" required/>
+            {formMessages && formMessages['name'] ? <span className="error-message">{formMessages['name']}</span> : null}
           </div>
           <div className="field-group">
             <div className="field">
               <label className="label-title" htmlFor="email">E-mail</label>
               <input type="email" name="email" id="email" onChange={handleInputChange} placeholder="email@provedor.com" required/>
+              {formMessages && formMessages['email'] ? <span className="error-message">{formMessages['email']}</span> : null}
             </div>
 
             <div className="field">
               <label className="label-title" htmlFor="name">WhatsApp</label>
-              <input type="tel" pattern="[0-9]{2}[0-9]{2}[0-9]{5}[0-9]{4}" name="whatsapp" id="whatsapp" onChange={handleInputChange} placeholder="5511912345678" required/>
+              <input type="tel" pattern="[0-9]{2}[0-9]{2}[0-9]{5}[0-9]{4}" name="whatsapp" 
+                id="whatsapp" onChange={handleInputChange} placeholder="5511912345678" required/>
+              {formMessages && formMessages['whatsapp'] ? <span className="error-message">{formMessages['whatsapp']}</span> : null}
             </div>
           </div>
         </fieldset>
@@ -201,16 +258,18 @@ const CreatePoint=()=>{
         <fieldset>
           <legend>
             <h2>Endereço</h2>
-            <span>Selecione o endereço no mapa</span>
+            <span className="clue">Selecione o endereço no mapa</span>
           </legend>
+          <div id="map-container">
+            <Map center={initialPosition} zoom={3} onClick={handleMapClick}>
+              <TileLayer attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"/>
 
-          <Map center={[-27.2092052, -49.6401092]} zoom={15} onClick={handleMapClick}>
-            <TileLayer attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"/>
-
-            <Marker position={selectedPosition}/>
-          </Map>
-
+              <Marker position={selectedPosition}/>
+            </Map>
+            {formMessages && (formMessages['position[0]'] || formMessages['position[1]']) ?
+             <span className="error-message">{formMessages['position[0]']}</span> : null}
+          </div>
           <div className="field-group">
             <div className="field">
               <label className="label-title" htmlFor="uf">Estado (UF)</label>
@@ -220,6 +279,7 @@ const CreatePoint=()=>{
                     <option key={uf} value={uf}>{uf}</option>
                   ))}
                 </select>
+                {formMessages && formMessages['uf'] ? <span className="error-message">{formMessages['uf']}</span> : null}
             </div>
 
             <div className="field">
@@ -230,6 +290,7 @@ const CreatePoint=()=>{
                     <option key={city} value={city}>{city}</option>
                   ))}
                 </select>
+                {formMessages && formMessages['city'] ? <span className="error-message">{formMessages['city']}</span> : null}
             </div>
           </div>
         </fieldset>
@@ -237,16 +298,19 @@ const CreatePoint=()=>{
         <fieldset>
           <legend>
             <h2>Itens de coleta</h2>
-            <span>Selecione um ou mais ítens abaixo</span>
+            <span className="clue">Selecione um ou mais ítens abaixo</span>
           </legend>
-          <ul className="items-grid">
-            {items.map(item=>(
-              <li key={item.id} onClick={()=>handleSelectItem(item.id)} className={selectedItems.includes(item.id)? 'selected' : ''}>
-                <img src={item.image_url} alt={`Item ${item.title}`}/>
-                <span>{item.title}</span>
-              </li>
-            ))}
-          </ul>
+          <div id="items-container">
+            <ul className="items-grid">
+              {items.map(item=>(
+                <li key={item.id} onClick={()=>handleSelectItem(item.id)} className={selectedItems.includes(item.id)? 'selected' : ''}>
+                  <img src={item.image_url} alt={`Item ${item.title}`}/>
+                  <span className="item-title">{item.title}</span>
+                </li>
+              ))}
+            </ul>
+            {formMessages && formMessages['items'] ? <span className="error-message">{formMessages['items']}</span> : null}
+          </div>
         </fieldset>
         <button type="submit">Cadastrar ponto de coleta</button>
       </form>
