@@ -86,7 +86,7 @@ const CreatePoint=()=>{
   useEffect(()=>{
     axios.get<IBGEUFResponse[]>('https://servicodados.ibge.gov.br/api/v1/localidades/estados').then(response=>{
       const ufInitials=response.data.map(uf=>uf.sigla)
-      setUfs(ufInitials)
+      setUfs(ufInitials.sort())
     })
   },[])
 
@@ -96,7 +96,9 @@ const CreatePoint=()=>{
     }
     axios.get<IBGECityResponse[]>(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${selectedUf}/municipios`).then(response=>{
       const cityNames=response.data.map(city=>city.nome)
-      setCities(cityNames)
+      setCities(cityNames.sort(function(a,b){
+        return a.localeCompare(b)
+      }))
     })
     //Carregar as cidades sempre que a UF mudar
   }, [selectedUf])
