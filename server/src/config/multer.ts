@@ -11,6 +11,19 @@ export default{
       const fileName=`${hash}-${file.originalname}`
 
       callback(null, fileName)
+    },
+  }),
+  
+  fileFilter: (req: any, file: any, cb: any)=> {
+    const acceptedImage = [
+      'image/png', 
+      'image/jpg', 
+      'image/jpeg'].some( checkType => checkType == file.mimetype )
+
+    if(acceptedImage){
+      return cb(null, true)
     }
-  })
+
+    cb(new Error("Arquivo inválido!"))
+  }
 }
