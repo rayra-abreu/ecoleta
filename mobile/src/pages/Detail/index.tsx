@@ -51,7 +51,7 @@ const Detail=()=>{
 
   function handleComposeMail(){
     MailComposer.composeAsync({
-      subject: 'Intersse na coleta de resíduos',
+      subject: 'Interesse na coleta de resíduos',
       recipients: [data.point.email],
       body: `Tenho interesse na coleta de resíduos: ${data.items.map(item=>item.title).join(', ')}`
     })
