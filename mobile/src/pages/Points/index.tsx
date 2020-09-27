@@ -42,25 +42,23 @@ const Points=()=>{
 
   useEffect(()=>{
     async function loadPosition(){
-      const {status}=await Location.requestPermissionsAsync()
+      try{
+        const {status}=await Location.requestPermissionsAsync()
 
-      if(status!='granted'){
-        Alert.alert('Ops', 'Precisamos da sua permissão para obter a localização.')
-        setInitialPosition([
-          -27.2092052,
-          -49.6401092
-        ])
-        return
+        if(status!='granted'){
+          Alert.alert('Ops', 'Precisamos da sua permissão para obter a localização.')
+          setInitialPosition([-15.792253570362446, -47.88394004702046])
+          return
+        }
+        
+        const location=await Location.getCurrentPositionAsync()
+
+        const {latitude, longitude}=location.coords
+        
+        setInitialPosition([latitude, longitude])
+      }catch(error){
+        setInitialPosition([-15.792253570362446, -47.88394004702046])
       }
-      
-      const location=await Location.getCurrentPositionAsync()
-
-      const {latitude, longitude}=location.coords
-      
-      setInitialPosition([
-        latitude,
-        longitude
-      ])
     }
 
     loadPosition() /*Chamando abaixo para poder usar async await */
@@ -248,9 +246,9 @@ const styles = StyleSheet.create({
   },
 
   item: {
-    backgroundColor: '#fff',
+    backgroundColor: '#FFF',
     borderWidth: 2,
-    borderColor: '#eee',
+    borderColor: '#EEE',
     height: 120,
     width: 120,
     borderRadius: 8,
