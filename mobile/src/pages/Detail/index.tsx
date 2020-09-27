@@ -58,25 +58,25 @@ const Detail=()=>{
   }
 
   if(!data.point){
-    return null
+    return <Text style={styles.loading}>Carregando...</Text>
   }
 
   return (
     <SafeAreaView style={{flex:1}}>
       <View style={styles.container}>
         <TouchableOpacity onPress={handleNavigateBack}>
-            <Icon name="arrow-left" size={20} color="#34CB79"/>
-          </TouchableOpacity>
+          <Icon name="arrow-left" size={20} color="#34CB79"/>
+        </TouchableOpacity>
 
-          <Image style={styles.pointImage} source={{uri: data.point.image_url}}/>
-          <Text style={styles.pointName}>{data.point.name}</Text>
-          <Text style={styles.pointItems}>
-            {data.items.map(item=>item.title).join(', ')}
-          </Text>
-          <View style={styles.address}>
-            <Text style={styles.addressTitle}>Endereço</Text>
-            <Text style={styles.addressContent}>{data.point.city}/ {data.point.uf}</Text>
-          </View>
+        <Image style={styles.pointImage} source={{uri: data.point.image_url}}/>
+        <Text style={styles.pointName}>{data.point.name}</Text>
+        <Text style={styles.pointItems}>
+          {data.items.map(item=>item.title).join(', ')}
+        </Text>
+        <View style={styles.address}>
+          <Text style={styles.addressTitle}>Endereço</Text>
+          <Text style={styles.addressContent}>{data.point.city}/ {data.point.uf}</Text>
+        </View>
       </View>
       <View style={styles.footer}>
         <RectButton style={styles.button} onPress={handleWhatsapp}>
@@ -90,10 +90,19 @@ const Detail=()=>{
         </RectButton>
       </View>
     </SafeAreaView>
-    )
+  )
 }
 
 const styles = StyleSheet.create({
+  loading: {
+    flex: 1,
+    fontSize: 20,
+    color: '#322153',
+    fontFamily: 'Ubuntu_700Bold',
+    textAlign: 'center',
+    textAlignVertical: 'center'
+  },
+
   container: {
     flex: 1,
     padding: 32,
