@@ -64,7 +64,7 @@ const Detail=()=>{
   return (
     <SafeAreaView style={{flex:1}}>
       <View style={styles.container}>
-        <TouchableOpacity onPress={handleNavigateBack}>
+        <TouchableOpacity style={styles.navigateBack} onPress={handleNavigateBack}>
           <Icon name="arrow-left" size={20} color="#34CB79"/>
         </TouchableOpacity>
 
@@ -107,6 +107,10 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 32,
     paddingTop: 20+ Constants.statusBarHeight
+  },
+
+  navigateBack: {
+    width: 20,
   },
 
   pointImage: {

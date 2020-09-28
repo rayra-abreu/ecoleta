@@ -107,7 +107,7 @@ const Points=()=>{
     components*/
     <>
       <View style={styles.container}>
-        <TouchableOpacity onPress={handleNavigateBack}>
+        <TouchableOpacity style={styles.navigateBack} onPress={handleNavigateBack}>
           <Icon name="arrow-left" size={20} color="#34CB79"/>
         </TouchableOpacity>
         <Text style={styles.title}>Bem-vindo</Text>
@@ -168,6 +168,10 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: 32,
     paddingTop: 20 + Constants.statusBarHeight,
+  },
+
+  navigateBack: {
+    width: 20,
   },
 
   title: {
@@ -263,6 +267,7 @@ const styles = StyleSheet.create({
   },
 
   selectedItem: {
+    backgroundColor: '#E1FAEC',
     borderColor: '#34CB79',
     borderWidth: 2,
   },
