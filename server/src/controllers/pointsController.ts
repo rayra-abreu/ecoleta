@@ -10,11 +10,17 @@ class PointsController{
     const points=await knex('points')
     .join('point_items', 'points.id', '=', 'point_items.point_id')
     .whereIn('point_items.item_id', parsedItems)
-    .where('city', String(city))
-    .where('uf', String(uf))
     .distinct().select('points.*') //Buscar apenas os dados da tabela points
+    .modify(queryBuilder => {
+      if(city !== '0' && uf !== '0'){
+        queryBuilder.where('uf', String(uf))
+        queryBuilder.where('city', String(city))
+      }else if(uf !== '0'){
+        queryBuilder.where('uf', String(uf))
+      }
+    })
 
-    const serializedPoints=points.map(point=>{
+    const serializedPoints=points.map((point: {image: string})=>{
       return {
         ...point,
         image_url: `http://:3333/uploads/${point.image}`,
@@ -23,6 +29,7 @@ class PointsController{
 
     return response.json(serializedPoints)
   }
+
   async show(request: Request, response: Response){
     const {id}=request.params
 
@@ -50,6 +57,7 @@ class PointsController{
 
     return response.json({point: serializedPoint, items})
   }
+  
   async create(request: Request, response: Response){
     const{
       name,
@@ -95,7 +103,9 @@ class PointsController{
     } catch (error) {
       await trx.rollback();
 
-      return response.status(400).json({ message: 'Falha na inserção na tabela point_items, verifique se os items informados são válidos' })
+      return response.status(400).json({
+        message: 'Falha na inserção na tabela point_items, verifique se os items informados são válidos'
+      })
     }
 
     return response.json({ id: point_id, ...point, })
