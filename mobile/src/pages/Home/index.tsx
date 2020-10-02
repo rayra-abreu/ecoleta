@@ -85,7 +85,7 @@ const Home=()=>{
             }}
             selectedValue={selectedUf}
           >
-          <Picker.Item label="Selecione a UF" key="0" value="0"/>
+          <Picker.Item label="Todos os estados" key="0" value="0"/>
           {ufs.map(uf=>(
             <Picker.Item label={uf} key={uf} value={uf}/>
           ))}
@@ -100,7 +100,7 @@ const Home=()=>{
             }}
             selectedValue={selectedCity}
           >
-          <Picker.Item label="Selecione a cidade" key="0" value="0"/>
+          <Picker.Item label="Todas as cidades" key="0" value="0"/>
           {cities.map(city=>(
             <Picker.Item label={city} key={city} value={city}/>
           ))}
